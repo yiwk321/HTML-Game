@@ -7,10 +7,10 @@ class Helicopter extends Rotatable {
         this.rotor_offset_y = 0;
         this.rotor_angle = 0;
         this.rotation_speed = 0.03 * Math.PI;
-        this.count = 0;
+        this.cooldown = 120;
         this.score = 0;
         this.death = 0;
-        this.countDown = 500;
+        this.respawn_timer = 480;
         this.dead = false;
     }
 
@@ -36,22 +36,22 @@ class Helicopter extends Rotatable {
 
     update() {
         if (this.dead) {
-            this.countDown--;
-            if (this.countDown == 0) this.respawn();
+            this.respawn_timer--;
+            if (this.respawn_timer == 0) this.respawn();
             return;
         }
         super.update();
-        if (this.count % 10 == 0) {
+        if (this.cooldown % 10 == 0) {
             var random_x = (Math.random() - 0.5) * 0.2;
             var random_y = (Math.random() - 0.5) * 0.2;
             if (random_x * this.velocity_x < 0 && Math.abs(this.velocity_x + random_x) > 1) this.velocity_x += random_x;
             if (random_y * this.velocity_y < 0 && Math.abs(this.velocity_y + random_y) > 1) this.velocity_y += random_y;
-            if (this.count % 50 == 0) {
+            if (this.cooldown % 50 == 0) {
                 this.updateRotateAngle();
             }
         }
         this.rotor_angle += this.rotation_speed;
-        this.count++;
+        this.cooldown--;
     }
 
     respawn() {
@@ -65,13 +65,13 @@ class Helicopter extends Rotatable {
             this.velocity_x *= 2 / velocity;
             this.velocity_y *= 2 / velocity;
         }
-        this.count = 0;
-        this.countDown = 500;
+        this.cooldown = 120;
+        this.respawn_timer = 480;
     }
 
     maybeShoot() {
-        if (this.count == 300) {
-            this.count = 0;
+        if (this.cooldown <= 0) {
+            this.cooldown = 300;
             return new Missile(this.x + this.body.naturalWidth / 2, this.y + this.body.naturalHeight / 2,
                 this.velocity_x * 2 + Math.random(), this.velocity_y * 2 + Math.random(),
                 this, this.canvas.width, this.canvas.height);
