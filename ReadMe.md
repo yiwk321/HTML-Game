@@ -4,7 +4,7 @@
 
 This is an HTML "game" using canvas and JavaScript. It is not interactive and does not handle inputs so it is technically not a game. 
 
-To start, the game spawns 5 helicopters on the canvas at random locations with random velocities. The helicopters shoot one missile every 5 seconds (the first missile is shot 2 seconds after spawning/respawning). Both the helicopters and the missiles bounces of the edge of the canvas. 
+To start, the game spawns 5 helicopters on the canvas at random locations with random velocities. Assuming 60fps, the helicopters shoot one missile every 5 seconds (the first missile is shot 2 seconds after spawning/respawning). Both the helicopters and the missiles bounces of the edge of the canvas. 
 
 If a missile hits something, both the missile and the object hit will be destroyed, plays an explosion animation and sound. 
 
